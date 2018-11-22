@@ -1,4 +1,6 @@
 #include "opencv2/opencv.hpp"
+#include <string>
+#include <iostream>
 
 int main(int argh, char* argv[]) {
   cv::VideoCapture cap(0); // open device
@@ -8,7 +10,7 @@ int main(int argh, char* argv[]) {
        return -1; // error
   }
 
-  while (1) 
+  for (int i=0; true; i++) 
   {
     cv::Mat frame;
     cap >> frame; //get a new frame from camera
@@ -20,12 +22,14 @@ int main(int argh, char* argv[]) {
     {
       break;
     }
-    else if (key == 115) // push s key
+    else if (i % 10 == 0) // take pictures 
     {
-      cv::imwrite("images/img.png", frame);
+      std::string num = std::to_string(i/10);
+      cv::imwrite("images/img" + num + ".png", frame);
     }
   }
 
   cv::destroyAllWindows();
   return 0;
 }
+
